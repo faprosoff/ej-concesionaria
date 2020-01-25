@@ -24,9 +24,10 @@ public class Main {
         miConcesionaria.mostrarVehiculos();
 
         System.out.println("=============================");
-
         miConcesionaria.mostrarVehiculoMasCaro();
         miConcesionaria.mostrarVehiculoMasBarato();
+
+        System.out.println("=============================");
         miConcesionaria.mostrarVehiculoQueContieneLetra("Y");
 
         System.out.println("=============================");

@@ -1,5 +1,6 @@
 package ar.com.onready.api;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -27,42 +28,33 @@ public class Concesionaria implements iConcesionaria {
     }
 
     public void mostrarVehiculoMasCaro() {
-        Optional<Vehiculo> optional = this.vehiculos.stream().max(Comparator.comparing(Vehiculo::getPrecio));
-        if (optional.isPresent()) {
-            Vehiculo v = optional.get();
-            System.out.println("Vehículo más caro: " + v.getMarca() + " " + v.getModelo());
-        }
+        this.vehiculos
+                .stream()
+                .max(Comparator.comparing(Vehiculo::getPrecio))
+                .ifPresent(v -> System.out.println("Vehículo más caro: " + v.getMarca() + " " + v.getModelo()));
     }
 
     public void mostrarVehiculoMasBarato() {
-        Optional<Vehiculo> optional = this.vehiculos.stream().min(Comparator.comparing(Vehiculo::getPrecio));
-        if (optional.isPresent()) {
-            Vehiculo v = optional.get();
-            System.out.println("Vehículo más barato: " + v.getMarca() + " " + v.getModelo());
-        }
+        this.vehiculos
+                .stream()
+                .min(Comparator.comparing(Vehiculo::getPrecio))
+                .ifPresent(v -> System.out.println("Vehículo más barato: " + v.getMarca() + " " + v.getModelo()));
     }
 
     public void mostrarVehiculoQueContieneLetra(String letra) {
-        List<Vehiculo> result = this.vehiculos.stream()
-                .filter(vehiculo -> vehiculo.getModelo().toUpperCase().contains(letra.toUpperCase()))
-                .collect(Collectors.toList());
-
-        if (!result.isEmpty()) {
-            Vehiculo v = result.get(0);
-            System.out.println("Vehículo que contiene en el modelo la letra 'Y': " + v.getMarca() + " " + v.getModelo() + " " + v.getPrecioConFormato());
-        } else {
-            System.out.println("No hay vehículos que contengan la letra " + letra + " en el modelo.");
-        }
-
+        System.out.println("Vehículos que contienen en el modelo la letra '" + letra + "':");
+        this.vehiculos
+                .stream()
+                .filter(v -> v.getModelo().toUpperCase().contains(letra.toUpperCase()))
+                .forEach(v -> System.out.println(v.getMarca() + " " + v.getModelo() + " " + v.getPrecioConFormato()));
     }
 
     public void mostrarVehiculosOrdenadosPorPrecioDesc() {
-        List<Vehiculo> result = this.vehiculos.stream()
-                .sorted(Comparator.comparing(Vehiculo::getPrecio).reversed())
-                .collect(Collectors.toList());
-
         System.out.println("Vehículos ordenados por precio de mayor a menor:");
-        result.forEach(vehiculo -> System.out.println(vehiculo.getMarca() + " " + vehiculo.getModelo()));
+        this.vehiculos
+                .stream()
+                .sorted(Comparator.comparing(Vehiculo::getPrecio).reversed())
+                .forEach(v -> System.out.println(v.getMarca() + " " + v.getModelo()));
     }
 
 }
